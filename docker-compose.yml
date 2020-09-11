@@ -10,3 +10,15 @@ services:
         volumes: 
             - "/app/node_modules"
             - "./:/app"
+    
+    test:
+        container_name: react-app-test
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - "/app/node_modules"
+            - "./:/app"
+        environment: 
+            - CI=true
+        command: npm test
