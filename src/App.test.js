@@ -4,7 +4,7 @@ import App from './App';
 
 test('renders welcome message', () => {
   const { getByText } = render(<App />);
-  const welcomeMessage = getByText(/Welcome to the Listify, the site that simplifies to do lists/i);
+  const welcomeMessage = getByText(/Welcome to Listify, the site that simplifies to do lists/i);
   expect(welcomeMessage).toBeInTheDocument();
 });
 
