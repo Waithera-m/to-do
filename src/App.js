@@ -23,6 +23,13 @@ function App(props) {
     setTasks([...tasks, newTask]);
   }
 
+  //variable determines if task noun will be in singular or plural form
+  //ternary operator used instead of if else block to enhance readability and minimise lines of code
+  const headingNoun = taskList.length !== 1 ? 'tasks':'task';
+
+  //variable stores the number of available tasks
+  const headingText = `${taskList.length} ${headingNoun} remaining`;
+
   return (
     <div className="container todoapp stack-large shadow shadow-lg">
     <h1 className="text-center mt-5">
@@ -31,7 +38,7 @@ function App(props) {
     <Form addTask={addTask}/>
     <FilterButtons />
     <h2 id="list-heading" style={{fontFamily: "'Dosis', sans-serif"}}>
-      3 tasks remaining
+      {headingText}
     </h2>
     <ul
       role="list"
