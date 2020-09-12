@@ -29,9 +29,20 @@ function App(props) {
     setTasks(remainingTasks);
   }
 
-  //iterate through the tasks state
+  //function updates a given task
+  function editTask(id, newName){
+    const editedTaskList = tasks.map(task => {
+      if(id === task.id) {
+        return {...task, name: newName}
+      }
+      return task;
+    });
+    setTasks(editedTaskList);
+  }
+
+  //iterate through the tasks' state
   //use key prop and assign task id as this prop's value to ensure that each value is unique
-  const taskList = tasks.map(task => (<Todo id={task.id} name={task.name} completed={task.completed} key={task.id} toggleTaskcompleted={toggleTaskcompleted} deleteTask={deleteTask} />));
+  const taskList = tasks.map(task => (<Todo id={task.id} name={task.name} completed={task.completed} key={task.id} toggleTaskcompleted={toggleTaskcompleted} deleteTask={deleteTask} editTask={editTask} />));
 
   //function defines structure of a new task, copies the existing tasks array, appends new tasks to this copy, and passess this new array to setTasks function to update the component's state
   function addTask(name) {

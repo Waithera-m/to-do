@@ -1,24 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 
 export default function Todo (props) {
-    return (
-        <li className="todo stack-small">
+
+    //set state to facilitate the implementation of conditional template rendering
+    const [isEditing, setEditing] = useState(false);
+
+    const editingTemplate = (
+      <form className="stack-small">
+        <div className="form-group">
+          <label className="todo-label" htmlFor={props.id}>
+            New name for {props.name}
+          </label>
+          <input id={props.id} className="todo-text text-muted" type="text" value={props.name} />
+        </div>
+        <div className="btn-group">
+          <button type="button" className="btn btn-danger mr-1" onClick={() => setEditing(false)}>
+            Cancel
+            <span className="visually-hidden">renaming {props.name}</span>
+          </button>
+          <button type="submit" className="btn btn-success todo-edit ml-1">
+            Save
+            <span className="visually-hidden">new name for {props.name}</span>
+          </button>
+        </div>
+      </form>
+    );
+
+    const viewTemplate = (
+        <div className="stack-small">
         <div className="c-cb">
           {/* true in curly brackets because defaultChecked is a true boolean attribute */}
-          <input id="todo-0" type="checkbox" defaultChecked={props.completed} onChange={() => props.toggleTaskcompleted(props.id)} />
-          <label className="todo-label" htmlFor="todo-0">
+          <input id={props.id} type="checkbox" defaultChecked={props.completed} onChange={() => props.toggleTaskcompleted(props.id)} />
+          <label className="todo-label" htmlFor={props.id}>
           {props.name}
           </label>
         </div>
         <div className="btn-group">
-          <button type="button" className="btn btn-info mr-1">
+          <button type="button" className="btn btn-info mr-1" onClick={() => setEditing(true)}>
             Edit <span className="visually-hidden">{props.name}</span>
           </button>
           <button type="button" className="btn btn-danger ml-1" onClick={() => props.deleteTask(props.id)}>
             Delete <span className="visually-hidden">{props.name}</span>
           </button>
         </div>
-      </li> 
-    )
+      </div> 
+    );
+
+    return <li className="todo">{isEditing ? editingTemplate: viewTemplate}</li>;
 }
