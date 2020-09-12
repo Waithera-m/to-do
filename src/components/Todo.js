@@ -6,13 +6,30 @@ export default function Todo (props) {
     //set state to facilitate the implementation of conditional template rendering
     const [isEditing, setEditing] = useState(false);
 
+    //create new hook to store and set new task name
+    const [newName, setNewName] = useState('');
+
+
+    //function sets new task name
+    function handleChange(e){
+      setNewName(e.target.value);
+    }
+
+    //function handles editing form onsubmit event
+    function handleSubmit(e){
+      e.preventDefault();
+      props.editTask(props.id, newName);
+      setNewName("");
+      setEditing(false);
+    }
+
     const editingTemplate = (
-      <form className="stack-small">
+      <form className="stack-small" onSubmit={handleSubmit}>
         <div className="form-group">
           <label className="todo-label" htmlFor={props.id}>
             New name for {props.name}
           </label>
-          <input id={props.id} className="todo-text text-muted" type="text" value={props.name} />
+          <input id={props.id} className="todo-text text-muted" type="text" autoFocus="autofocus" value={newName} onChange={handleChange} />
         </div>
         <div className="btn-group">
           <button type="button" className="btn btn-danger mr-1" onClick={() => setEditing(false)}>
