@@ -12,9 +12,26 @@ function App(props) {
   //define default tasks to be displayed and function to update this list
   const [tasks, setTasks] = useState(props.tasks);
 
+  //function maps over original task list and creates a new task object, using object spread syntax, whose completed status is inverted
+  function toggleTaskcompleted(id){
+    const updatedTasks = tasks.map( task => {
+      if(id === task.id) {
+        return {...task, completed: !task.completed}
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  }
+
+  //function filters the existing tasks array and returns a new array which excludes a task whose id has been passed
+  function deleteTask(id) {
+    const remainingTasks = tasks.filter(task => id !== task.id);
+    setTasks(remainingTasks);
+  }
+
   //iterate through the tasks state
   //use key prop and assign task id as this prop's value to ensure that each value is unique
-  const taskList = tasks.map(task => (<Todo id={task.id} name={task.name} completed={task.completed} key={task.id} />));
+  const taskList = tasks.map(task => (<Todo id={task.id} name={task.name} completed={task.completed} key={task.id} toggleTaskcompleted={toggleTaskcompleted} deleteTask={deleteTask} />));
 
   //function defines structure of a new task, copies the existing tasks array, appends new tasks to this copy, and passess this new array to setTasks function to update the component's state
   function addTask(name) {
